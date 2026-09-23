@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Resume Builder</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f2f5f9;
+    padding:20px;
+}
+
+.container{
+    display:flex;
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+.form{
+    flex:1;
+    min-width:320px;
+    background:#fff;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.resume{
+    flex:1;
+    min-width:320px;
+    background:#fff;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+h2{
+    color:#0d6efd;
+    margin-bottom:15px;
+}
+
+input,textarea{
+    width:100%;
+    margin:4px 0;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+
+textarea{
+    height:80px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    border:none;
+    background:#0d6efd;
+    color:#fff;
+    font-size:16px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#084298;
+}
+
+.resume h1{
+    color:#0d6efd;
+}
+
+.resume h3{
+    margin-top:10px;
+    color:#333;
+    border-bottom:1px solid #0d6efd;
+    padding-bottom:2px;
+}
+
+ul{
+    margin-left:10px;
+    margin-top:5px;
+}
+
+@media(max-width:768px){
+.container{
+flex-direction:column;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="form">
+<h2>AI Resume Builder</h2>
+
+<input type="text" id="name" placeholder="Full Name">
+
+<input type="email" id="email" placeholder="Email">
+
+<input type="text" id="phone" placeholder="Phone">
+
+<input type="text" id="location" placeholder="Location">
+
+<textarea id="summary" placeholder="Professional Summary"></textarea>
+
+<textarea id="skills" placeholder="Skills (comma separated)"></textarea>
+
+<textarea id="education" placeholder="Education"></textarea>
+
+<textarea id="experience" placeholder="Experience"></textarea>
+
+<button onclick="generateResume()">Generate Resume</button>
+
+<button onclick="downloadResume()">Download Resume</button>
+
+</div>
+
+<div class="resume" id="resume">
+
+<h1 id="rName">Your Name</h1>
+
+<p id="rContact"></p>
+
+<h3>Professional Summary</h3>
+<p id="rSummary"></p>
+
+<h3>Skills</h3>
+<ul id="rSkills"></ul>
+
+<h3>Education</h3>
+<p id="rEducation"></p>
+
+<h3>Experience</h3>
+<p id="rExperience"></p>
+
+</div>
+
+</div>
+
+<script>
+function generateResume(){
+
+let name=document.getElementById("name").value;
+let email=document.getElementById("email").value;
+let phone=document.getElementById("phone").value;
+let location=document.getElementById("location").value;
+let summary=document.getElementById("summary").value;
+let education=document.getElementById("education").value;
+let experience=document.getElementById("experience").value;
+let skills=document.getElementById("skills").value.split(",");
+
+if(summary.trim()==""){
+summary="Motivated professional with strong communication, teamwork, and problem-solving skills seeking opportunities to contribute and grow.";
+}
+
+document.getElementById("rName").innerHTML=name;
+document.getElementById("rContact").innerHTML=email+" | "+phone+" | "+location;
+document.getElementById("rSummary").innerHTML=summary;
+document.getElementById("rEducation").innerHTML=education;
+document.getElementById("rExperience").innerHTML=experience;
+
+let skillHTML="";
+
+skills.forEach(function(skill){
+if(skill.trim()!=""){
+skillHTML+="<li>"+skill.trim()+"</li>";
+}
+});
+
+document.getElementById("rSkills").innerHTML=skillHTML;
+}
+
+function downloadResume(){
+
+let printContents=document.getElementById("resume").innerHTML;
+
+let win=window.open("");
+
+win.document.write("<html><head><title>Resume</title>");
+
+win.document.write("<style>");
+win.document.write("body{font-family:Arial;padding:30px;}h1{color:#0d6efd;}h3{border-bottom:2px solid #0d6efd;padding-bottom:5px;}ul{margin-left:20px;}");
+win.document.write("</style>");
+
+win.document.write("</head><body>");
+
+win.document.write(printContents);
+
+win.document.write("</body></html>");
+
+win.document.close();
+
+win.print();
+
+}
+</script>
+
+</body>
+</html>
